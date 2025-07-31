@@ -7,6 +7,10 @@ An advanced machine learning-powered web application that helps users identify p
 ![Flask](https://img.shields.io/badge/Flask-2.0.1-lightgrey)
 ![XGBoost](https://img.shields.io/badge/XGBoost-1.4.2-orange)
 
+<img width="1920" height="1080" alt="Screenshot from 2025-07-31 22-13-54" src="https://github.com/user-attachments/assets/fdd462e8-e908-423b-8279-c08a008f0f0e" />
+<img width="1920" height="1080" alt="Screenshot from 2025-07-31 22-15-48" src="https://github.com/user-attachments/assets/e7f9c849-c8ed-4b48-8093-192fc93a55ee" />
+<img width="1920" height="1080" alt="Screenshot from 2025-07-31 22-24-25" src="https://github.com/user-attachments/assets/e82b0e0a-19c4-4227-91ca-54830b1ba681" />
+
 ## Features
 
 ### 1. Machine Learning Model
