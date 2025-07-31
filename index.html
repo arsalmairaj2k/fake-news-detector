@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake News Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .form-label {
+            color: #2c3e50;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+        }
+
+        .btn-analyze {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .true-news {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: none;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+        }
+
+        .fake-news {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: none;
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.2);
+        }
+
+        .result-box h4 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .confidence-bar {
+            height: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            background-color: rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            transition: width 0.6s ease;
+            border-radius: 12px;
+        }
+
+        .verdict-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .verdict-true {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .verdict-false {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .probability-details {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .info-icon {
+            color: #4a90e2;
+            margin-right: 8px;
+        }
+
+        .example-texts {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+
+        .example-text-btn {
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            margin: 5px;
+            background: rgba(74, 144, 226, 0.1);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            border-radius: 20px;
+            color: #4a90e2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .example-text-btn:hover {
+            background: rgba(74, 144, 226, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <h1><i class="fas fa-shield-alt info-icon"></i>Fake News Detector</h1>
+            <p class="subtitle">Advanced AI-powered tool to detect fake news with high accuracy</p>
+            
+            <form id="newsForm">
+                <div class="mb-4">
+                    <label for="newsText" class="form-label">
+                        <i class="fas fa-newspaper info-icon"></i>Enter news text to analyze:
+                    </label>
+                    <textarea class="form-control" id="newsText" rows="6" placeholder="Paste your news article or text here..." required></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-analyze btn-lg">
+                        <i class="fas fa-search me-2"></i>Analyze Text
+                    </button>
+                </div>
+            </form>
+
+            <div class="loading">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-muted">Analyzing text...</p>
+            </div>
+
+            <div id="result" class="result-box">
+                <h4><i class="fas fa-chart-bar me-2"></i>Analysis Result</h4>
+                <div id="verdict-container">
+                    <span id="verdict-badge" class="verdict-badge"></span>
+                </div>
+                <div class="confidence-bar progress">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+                <p id="confidence" class="mb-3"></p>
+                
+                <div class="probability-details">
+                    <h5><i class="fas fa-percentage me-2"></i>Detailed Probabilities</h5>
+                    <div id="probabilities" class="mt-2"></div>
+                </div>
+            </div>
+
+            <div class="example-texts">
+                <h5><i class="fas fa-lightbulb me-2"></i>Try these examples:</h5>
+                <div class="mt-3">
+                    <button type="button" class="example-text-btn">Breaking: Scientists discover miracle cure for all diseases!</button>
+                    <button type="button" class="example-text-btn">NASA confirms successful Mars rover landing</button>
+                    <button type="button" class="example-text-btn">Local community opens new public library</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('newsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const text = document.getElementById('newsText').value;
+            const loading = document.querySelector('.loading');
+            const result = document.getElementById('result');
+            
+            // Show loading, hide result
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Update result display
+                const predictionText = data.prediction === 'True' ? 'REAL NEWS' : 'FAKE NEWS';
+                const confidence = (data.confidence * 100).toFixed(1);
+                
+                // Update verdict badge
+                const verdictBadge = document.getElementById('verdict-badge');
+                verdictBadge.textContent = predictionText;
+                verdictBadge.className = `verdict-badge ${data.prediction === 'True' ? 'verdict-true' : 'verdict-false'}`;
+                
+                // Update confidence text and bar
+                document.getElementById('confidence').innerHTML = `
+                    <i class="fas fa-chart-line me-2"></i>
+                    Confidence Level: <strong>${confidence}%</strong>
+                `;
+                
+                const progressBar = document.querySelector('.progress-bar');
+                progressBar.style.width = `${confidence}%`;
+                progressBar.className = `progress-bar ${data.prediction === 'True' ? 'bg-success' : 'bg-danger'}`;
+                
+                // Update probabilities
+                document.getElementById('probabilities').innerHTML = `
+                    <div class="row">
+                        <div class="col-6">
+                            <p><i class="fas fa-check-circle text-success me-2"></i>True: ${(data.probabilities.true * 100).toFixed(1)}%</p>
+                        </div>
+                        <div class="col-6">
+                            <p><i class="fas fa-times-circle text-danger me-2"></i>False: ${(data.probabilities.false * 100).toFixed(1)}%</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Update result box style
+                result.className = `result-box ${data.prediction === 'True' ? 'true-news' : 'fake-news'}`;
+                result.style.display = 'block';
+                
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
+        // Example text functionality
+        document.querySelectorAll('.example-text-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('newsText').value = button.textContent;
+            });
+        });
+    </script>
+</body>
+</html>
