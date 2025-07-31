@@ -7,9 +7,11 @@ An advanced machine learning-powered web application that helps users identify p
 ![Flask](https://img.shields.io/badge/Flask-2.0.1-lightgrey)
 ![XGBoost](https://img.shields.io/badge/XGBoost-1.4.2-orange)
 
-<img width="1920" height="1080" alt="Screenshot from 2025-07-31 22-13-54" src="https://github.com/user-attachments/assets/fdd462e8-e908-423b-8279-c08a008f0f0e" />
-<img width="1920" height="1080" alt="Screenshot from 2025-07-31 22-15-48" src="https://github.com/user-attachments/assets/e7f9c849-c8ed-4b48-8093-192fc93a55ee" />
-<img width="1920" height="1080" alt="Screenshot from 2025-07-31 22-24-25" src="https://github.com/user-attachments/assets/e82b0e0a-19c4-4227-91ca-54830b1ba681" />
+<img width="1506" height="732" alt="Screenshot from 2025-07-31 23-15-34" src="https://github.com/user-attachments/assets/267f2314-7bc4-4ec2-a53b-009c097de854" />
+
+<img width="1607" height="800" alt="Screenshot from 2025-07-31 23-16-08" src="https://github.com/user-attachments/assets/8221d4c3-8af2-40a6-914f-581a5e813017" />
+
+<img width="1607" height="800" alt="Screenshot from 2025-07-31 23-16-24" src="https://github.com/user-attachments/assets/a4f9f592-18c7-4846-9d22-2ad0a236063c" />
 
 ## Features
 
